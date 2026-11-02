@@ -1,6 +1,5 @@
 "use client";
 import { BlackButton, BlueButton, GreenButton } from "@/app/component/buttons";
-import { checkDuplicatedId, joinUser } from "@/app/lib/auth";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 
@@ -16,14 +15,23 @@ export default function JoinForm() {
     const router = useRouter();
 
     const handleUserIdChange = async (e: ChangeEvent<HTMLInputElement>) => {
-        setUserId(e.target.value);
+        const val = e.target.value;
 
-        if (e.target.value.trim() == "") {
+        setUserId(val);
+
+        if (val.trim() == "") {
             setDuplicated(false);
             return;
         }
 
-        const data = await checkDuplicatedId(e.target.value);
+        const response = await fetch(`/api/auth/dup-id?userId=`+val, {
+            method:"get",
+            headers:{
+                "Content-Type": "application/json"
+            }
+        });
+
+        const data = await response.json();
         setDuplicated(data.duplicated);
     };
 
@@ -55,7 +63,19 @@ export default function JoinForm() {
         }
 
 
-        const data = await joinUser(userId, userPwd, nickname, email);
+        const response = await fetch(`/api/auth/join`, {
+            method:"post",
+            headers:{
+                "Content-Type": "application/json"
+            },
+            body:JSON.stringify({
+                userId, userPwd, nickname, email
+            })
+
+        });
+
+
+        const data = await response.json();
 
         if(data.result == true){
             router.push("/auth/login");
