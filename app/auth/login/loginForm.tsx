@@ -34,7 +34,9 @@ export default function LoginForm() {
         });
 
         const data = await response.json();
-        console.log(data);
+        if(data.result == "success"){
+            router.push("/student/list");
+        }
 
     };
 
