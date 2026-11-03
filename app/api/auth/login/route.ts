@@ -31,7 +31,7 @@ export async function POST(request : Request){
 
 
         
-        const setCookieHEeaders = response.headers.getSetCookie();
+        const setCookieHeeaders = response.headers.getSetCookie();
 
         const routeResponse = NextResponse.json({
             result: "success"
@@ -39,7 +39,7 @@ export async function POST(request : Request){
             status: 200
         });
 
-        for(const cookieStr of setCookieHEeaders){
+        for(const cookieStr of setCookieHeeaders){
             routeResponse.headers.append("Set-Cookie", cookieStr);
             console.log("cookie 설정됨 - " + cookieStr);
         }
