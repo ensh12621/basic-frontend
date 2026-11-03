@@ -6,7 +6,7 @@ interface ButtonProps {
 
 }
 
-export function BlueButton({ value, disabled = true, onClick }: ButtonProps) {
+export function BlueButton({ value, disabled = false, onClick }: ButtonProps) {
 
 
 

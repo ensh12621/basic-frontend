@@ -12,7 +12,7 @@ export default function LoginForm() {
 
     const router = useRouter();
     
-    const handleLogin = () => {
+    const handleLogin = async () => {
         if(userId.trim().length == 0){
             alert("아이디를 입력해주세요");
             return;
@@ -21,6 +21,20 @@ export default function LoginForm() {
             alert("비밀번호를 입력해주세요");
             return;
         }
+
+        const response = await fetch(`/api/auth/login`, {
+            method:"post",
+            headers:{
+                "Content-Type": "application/json"
+            },
+            body:JSON.stringify({
+                userId,
+                userPwd
+            })
+        });
+
+        const data = await response.json();
+        console.log(data);
 
     };
 
